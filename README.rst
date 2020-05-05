@@ -9,7 +9,7 @@ Cookiecutter PyPackage
 .. image:: https://travis-ci.org/audreyr/cookiecutter-pypackage.svg?branch=master
     :target: https://travis-ci.org/audreyr/cookiecutter-pypackage     
 
-A fork of cookiecutter-pypackage that uses poetry for dependency management, bump2version in place of bumpversion, adds support for appveyor, and allows use of github pages for doc hosting.
+A fork of cookiecutter-pypackage that uses poetry for dependency management, bump2version in place of bumpversion, adds support for appveyor and azure devops, and allows use of github pages for doc hosting.
 
 * GitHub repo: https://github.com/audreyr/cookiecutter-pypackage/
 * Documentation: https://cookiecutter-pypackage.readthedocs.io/
@@ -21,7 +21,8 @@ Features
 * Testing setup with ``unittest`` and ``python setup.py test`` or ``pytest``
 * Travis-CI_: Ready for Travis Continuous Integration testing
 * Appveyor_: Ready for Appveyor Continuous Integration testing
-* Tox_ testing: Setup to easily test for Python 2.7, 3.4, 3.5, 3.6, 3.7
+* Azure_ Devops: Ready for Azure Devops Continuous Integration testing
+* Tox_ testing: Setup to easily test for Python 2.7, 3.4, 3.5, 3.6, 3.7, 3.8
 * Sphinx_ docs: Documentation ready for generation with, for example, ReadTheDocs_
 * Bump2version_: Pre-configured version bumping with a single command
 * Auto-release to PyPI_ when you push a new tag to master (optional)
@@ -59,12 +60,13 @@ Generate a Python package project::
 Then:
 
 * Create a repo and put it there.
-* Add the repo to your Travis-CI_ account.
+* Add the repo to your Travis-CI_, Appveyor_, or Azure_ account.
 * Install the dev requirements into a virtualenv. (``poetry install``)
 * Register_ your project with PyPI.
-* Run the Travis CLI command ``travis encrypt MYPYPI_PASS=your_password --add env.global``
+* (if using Travis-CI_)Run the Travis CLI command ``travis encrypt MYPYPI_PASS=your_password --add env.global``
   to encrypt you PyPI password in Travis config and activate automated deployment on PyPI
   when you push a new tag to master branch.
+* (if using Azure_)Follow steps on the `Microsoft Docs`_ page on using Twine for PyPI deployment.
 * (if using ReadTheDocs)Add the repo to your ReadTheDocs_ account + turn on the ReadTheDocs service hook.
 * (if using GitHub pages)Navigate to settings and make docs folder githubpages
 * Release your package by pushing a new tag to master.
@@ -97,7 +99,7 @@ Similar Cookiecutter Templates
 
 * `ardydedase/cookiecutter-pypackage`_: A fork with separate requirements files rather than a requirements list in the ``setup.py`` file.
 
-* `lgiordani/cookiecutter-pypackage`_: A fork of Cookiecutter that uses Punch_ instead of Bumpversion_ and with separate requirements files.
+* `lgiordani/cookiecutter-pypackage`_: A fork of Cookiecutter that uses Punch_ instead of Bump2version_ and with separate requirements files.
 
 * Also see the `network`_ and `family tree`_ for this repo. (If you find
   anything that should be listed here, please add it and send a pull request!)
@@ -143,6 +145,7 @@ make my own packaging experience better.
 
 .. _Travis-CI: http://travis-ci.org/
 .. _Appveyor: http://appveyor.com/
+.. _Azure: https://docs.microsoft.com/en-us/azure/devops/pipelines/?view=azure-devops
 .. _Tox: http://testrun.org/tox/
 .. _Sphinx: http://sphinx-doc.org/
 .. _ReadTheDocs: https://readthedocs.io/
@@ -158,3 +161,5 @@ make my own packaging experience better.
 .. _github comparison view: https://github.com/tony/cookiecutter-pypackage-pythonic/compare/audreyr:master...master
 .. _`network`: https://github.com/audreyr/cookiecutter-pypackage/network
 .. _`family tree`: https://github.com/audreyr/cookiecutter-pypackage/network/members
+
+.. _`Microsoft Docs`: https://docs.microsoft.com/en-us/azure/devops/pipelines/artifacts/pypi?view=azure-devops&tabs=yaml
