@@ -9,14 +9,11 @@ readme = "README.rst"
 
 repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 {% if cookiecutter.document_publisher == 'ReadTheDocs' %}
-homepage = "https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io"
+documentation = "https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io"
 {% else %}
-homepage = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
+documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
 {%- endif %}
-
-packages = [
-    { include = "{{ cookiecutter.project_slug }}", from = "src"},
-]
+homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -28,10 +25,18 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
 ]
+
 [tool.poetry.dependencies]
 # List project dependencies here
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 click = "^8.0.1"{%- endif %}
+{% if cookiecutter.use_onacol == "y" -%}
+onacol = "^0.3.0"{% endif %}
+
+{%- if cookiecutter.command_line_interface|lower == 'click' %}
+[tool.poetry.scripts]
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
+{%- endif %}
 
 [tool.poetry.dev-dependencies]
 bump2version = "^0.5.0"
@@ -40,9 +45,9 @@ wheel = "^0.32.1"
 watchdog = "^0.9.0"
 flake8 = "^3.5.0"
 tox = "^3.5.2"
-coverage = "^4.5.1"
-Sphinx = "^1.8.1"
-twine = "^1.12.1"
+coverage = {extras = ["toml"], version = "^5.5"}
+Sphinx = "^4.1.1"
+twine = "^3.4.2"
 {% if cookiecutter.use_pytest == "y" -%}
 pytest = "^3.8.2"
 pytest-runner = "^4.2"
@@ -50,3 +55,12 @@ pytest-cov = "^2.6.0"{% endif %}
 setuptools = "^40.5.0"
 rstcheck = "^3.3.1"
 ptpython = "^2.0.4"
+mypy = "^0.910"
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+source = ["{{ cookiecutter.project_slug }}"]
+relative_files = true
+
+[tool.coverage.report]
+fail_under = 100
