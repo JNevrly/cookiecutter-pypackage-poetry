@@ -33,6 +33,7 @@ click = "^8.0.1"{%- endif %}
 {% if cookiecutter.use_onacol == "y" -%}
 onacol = "^0.3.0"{% endif %}
 
+
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 [tool.poetry.scripts]
 {{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
