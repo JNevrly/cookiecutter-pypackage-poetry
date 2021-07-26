@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+.. module: {{cookiecutter.project_slug}}.cli
+   :synopsis: CLI interface
+.. moduleauthor:: "{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"
+"""
 
-"""Console script for {{cookiecutter.project_slug}}."""
 import sys
 {%- if cookiecutter.use_onacol == 'y' %}
 import pkg_resources
@@ -57,7 +61,6 @@ def main(ctx, config, get_config_template):
                "{{cookiecutter.project_slug}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
     return 0
-
 {% else %}
 @click.command()
 def main(args=None):

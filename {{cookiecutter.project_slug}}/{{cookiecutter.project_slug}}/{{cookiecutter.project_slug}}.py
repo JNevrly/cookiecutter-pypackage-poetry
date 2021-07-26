@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
-
-"""Main module."""
+"""
+.. module: {{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}
+   :synopsis: Main module
+.. moduleauthor:: "{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"
+"""
