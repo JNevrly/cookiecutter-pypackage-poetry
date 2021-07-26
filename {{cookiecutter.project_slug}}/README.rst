@@ -53,10 +53,4 @@ Features
 
 * TODO
 
-Credits
--------
-
-This package was created with Cookiecutter_ and the `wboxx1/cookiecutter-pypackage-poetry`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`wboxx1/cookiecutter-pypackage-poetry`: https://github.com/wboxx1/cookiecutter-pypackage-poetry
+.. _`JNevrly/cookiecutter-pypackage-poetry`: https://github.com/JNevrly/cookiecutter-pypackage-poetry
