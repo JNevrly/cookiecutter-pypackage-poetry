@@ -9,7 +9,7 @@ readme = "README.rst"
 
 repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 {% if cookiecutter.document_publisher == 'ReadTheDocs' %}
-homepage = https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io.
+homepage = "https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io"
 {% else %}
 homepage = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
 {%- endif %}
