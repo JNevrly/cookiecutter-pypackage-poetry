@@ -48,6 +48,7 @@ flake8 = "^3.5.0"
 tox = "^3.5.2"
 coverage = {extras = ["toml"], version = "^5.5"}
 Sphinx = "^4.1.1"
+sphinx-rtd-theme = "^0.5.2"
 twine = "^3.4.2"
 {% if cookiecutter.use_pytest == "y" -%}
 pytest = "^3.8.2"
