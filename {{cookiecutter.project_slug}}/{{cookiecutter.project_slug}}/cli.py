@@ -16,9 +16,9 @@ import click
 from onacol import ConfigManager
 {%- endif %}
 {%- endif %}
-
-
 {%- if cookiecutter.use_onacol == 'y' %}
+
+
 DEFAULT_CONFIG_FILE = pkg_resources.resource_filename(
     "{{cookiecutter.project_slug}}", "default_config.yaml")
 {%- endif %}
