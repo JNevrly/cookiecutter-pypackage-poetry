@@ -13,7 +13,7 @@ import pkg_resources
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 import click
 {%- if cookiecutter.use_onacol == 'y' %}
-from onacol import ConfigManager
+from onacol import ConfigManager, ConfigValidationError
 {%- endif %}
 {%- endif %}
 {%- if cookiecutter.use_onacol == 'y' %}
@@ -56,7 +56,13 @@ def main(ctx, config, get_config_template):
     config_manager.config_from_cli_args(ctx.args)
 
     # Validate the config
-    config_manager.validate()
+    try:
+        config_manager.validate()
+    except ConfigValidationError as cve:
+        click.secho("<----------------Configuration problem---------------->",
+                    fg='red')
+        # Logging is not yet configured at this point.
+        click.secho(str(cve), fg='red')
 
     click.echo("Replace this message by putting your code into "
                "{{cookiecutter.project_slug}}.cli.main")
