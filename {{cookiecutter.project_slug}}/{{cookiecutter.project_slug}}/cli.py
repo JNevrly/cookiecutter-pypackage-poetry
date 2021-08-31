@@ -26,9 +26,9 @@ from onacol import ConfigManager, ConfigValidationError
 
 DEFAULT_CONFIG_FILE = pkg_resources.resource_filename(
     "{{cookiecutter.project_slug}}", "default_config.yaml")
-{%- endif %}
+{% endif %}
 
-{%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
+{% if cookiecutter.use_classic_aiohttp_setup == 'y' %}
 logger = logging.getLogger("{{cookiecutter.project_slug}}")
 
 
@@ -36,7 +36,7 @@ def global_exception_handler(loop, context):
     msg = f"{context.get('message', '')} : {context.get('exception', '')} @ " \
           f"{context.get('future','')}"
     logger.error("Exception caught at global level: %s", msg)
-{%- endif %}
+{% endif %}
 
 
 {% if cookiecutter.command_line_interface|lower == 'click' %}

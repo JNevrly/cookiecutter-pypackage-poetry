@@ -32,3 +32,8 @@ if __name__ == "__main__":
 
     if "{{ cookiecutter.document_publisher }}" == "ReadTheDocs":
         remove_file("docs/.nojekyll")
+
+    if "{{ cookiecutter.use_classic_aiohttp_setup }}" == "n":
+        http_handler_file = os.path.join("{{ cookiecutter.project_slug }}",
+                                         "http_handler.py")
+        remove_file(http_handler_file)
