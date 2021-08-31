@@ -9,6 +9,11 @@ import sys
 {%- if cookiecutter.use_onacol == 'y' %}
 import pkg_resources
 {%- endif %}
+{%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
+import asyncio
+import logging
+{%- endif %}
+
 
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 import click
@@ -22,6 +27,17 @@ from onacol import ConfigManager, ConfigValidationError
 DEFAULT_CONFIG_FILE = pkg_resources.resource_filename(
     "{{cookiecutter.project_slug}}", "default_config.yaml")
 {%- endif %}
+
+{%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
+logger = logging.getLogger("{{cookiecutter.project_slug}}")
+
+
+def global_exception_handler(loop, context):
+    msg = f"{context.get('message', '')} : {context.get('exception', '')} @ " \
+          f"{context.get('future','')}"
+    logger.error("Exception caught at global level: %s", msg)
+{%- endif %}
+
 
 {% if cookiecutter.command_line_interface|lower == 'click' %}
 {%- if cookiecutter.use_onacol == 'y' %}
@@ -63,6 +79,43 @@ def main(ctx, config, get_config_template):
                     fg='red')
         # Logging is not yet configured at this point.
         click.secho(str(cve), fg='red')
+
+    {%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
+    # Asyncio loop setup
+    loop = asyncio.get_event_loop()
+    loop.set_exception_handler(global_exception_handler)
+
+    logging.basicConfig(level=getattr(
+        logging, config_manager.config['general']['log_level']),
+        format="%(asctime)s.%(msecs)03d [%(name)s][%(levelname)s] %(message)s",
+        datefmt="%H:%M:%S",
+        stream=sys.stdout)
+
+    logging.getLogger("aiohttp").setLevel(logging.WARNING)
+    logging.getLogger("sockjs").setLevel(logging.WARNING)
+
+    # Setup your main classes here
+
+    try:
+        click.secho("Running {{cookiecutter.project_slug}} application ..", fg='green')
+        # Start your app here
+
+        loop.run_forever()
+    except KeyboardInterrupt:
+        click.secho("<--------------- Shutting down ------------------->",
+                    fg='red')
+    except Exception as e:
+        logger.exception(e)
+    finally:
+        try:
+            # Stop and cleanup your app here
+
+            loop.run_until_complete(asyncio.sleep(1.0))
+            loop.close()
+        except Exception as e:
+            logger.exception("Error occured during shutdown : %s", e)
+        click.secho("<--------------- Stopped ------------------->", fg='red')
+    {%- endif %}
 
     click.echo("Replace this message by putting your code into "
                "{{cookiecutter.project_slug}}.cli.main")

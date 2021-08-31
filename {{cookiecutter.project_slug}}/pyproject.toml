@@ -31,13 +31,15 @@ classifiers = [
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 click = "^8.0.1"{%- endif %}
 {% if cookiecutter.use_onacol == "y" -%}
-onacol = "^0.3.0"{% endif %}
+onacol = "^0.3.0"{%- endif %}
+{% if use_classic_aiohttp_setup == "y" -%}
+aiohttp = "^3.7.4"
+sockjs = "^0.11.0"{% endif %}
 
-
-{%- if cookiecutter.command_line_interface|lower == 'click' %}
+{% if cookiecutter.command_line_interface|lower == 'click' %}
 [tool.poetry.scripts]
 {{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
-{%- endif %}
+{% endif %}
 
 [tool.poetry.dev-dependencies]
 bump2version = "^0.5.0"
