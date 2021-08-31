@@ -79,6 +79,7 @@ def main(ctx, config, get_config_template):
                     fg='red')
         # Logging is not yet configured at this point.
         click.secho(str(cve), fg='red')
+        return 2
 
     {%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
     # Asyncio loop setup
