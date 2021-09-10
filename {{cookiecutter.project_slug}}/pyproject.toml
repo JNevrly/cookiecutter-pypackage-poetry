@@ -32,7 +32,7 @@ classifiers = [
 click = "^8.0.1"{%- endif %}
 {% if cookiecutter.use_onacol == "y" -%}
 onacol = "^0.3.0"{%- endif %}
-{% if use_classic_aiohttp_setup == "y" -%}
+{% if cookiecutter.use_classic_aiohttp_setup == "y" -%}
 aiohttp = "^3.7.4"
 sockjs = "^0.11.0"{% endif %}
 
