@@ -63,7 +63,7 @@ def main(ctx, config, get_config_template):
     # Then finish the application
     if get_config_template:
         config_manager.generate_config_example(get_config_template)
-        return
+        sys.exit(0)
 
     # Load (implicit) environment variables
     config_manager.config_from_env_vars()
@@ -78,8 +78,8 @@ def main(ctx, config, get_config_template):
         click.secho("<----------------Configuration problem---------------->",
                     fg='red')
         # Logging is not yet configured at this point.
-        click.secho(str(cve), fg='red')
-        return 2
+        click.secho(str(cve), fg='red', err=True)
+        sys.exit(1)
 
     {%- if cookiecutter.use_classic_aiohttp_setup == 'y' %}
     # Asyncio loop setup
@@ -121,7 +121,7 @@ def main(ctx, config, get_config_template):
     click.echo("Replace this message by putting your code into "
                "{{cookiecutter.project_slug}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
-    return 0
+    sys.exit(0)
 {% else %}
 @click.command()
 def main(args=None):
@@ -131,9 +131,10 @@ def main(args=None):
     click.echo("Replace this message by putting your code into "
                "{{cookiecutter.project_slug}}.cli.main")
     click.echo("See click documentation at https://click.palletsprojects.com/")
-    return 0
+    sys.exit(0)
+
 {%- endif %}
 {%- endif %}
 
 if __name__ == "__main__":
-    sys.exit(main())  # pragma: no cover
+    main()  # pragma: no cover
