@@ -37,3 +37,8 @@ if __name__ == "__main__":
         http_handler_file = os.path.join("{{ cookiecutter.project_slug }}",
                                          "http_handler.py")
         remove_file(http_handler_file)
+
+    if "{{ cookiecutter.use_onacol }}" == "n":
+        config_file = os.path.join("{{ cookiecutter.project_slug }}",
+                                   "default_config.yaml")
+        remove_file(config_file)
