@@ -19,13 +19,15 @@ classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10"
 ]
 
 [tool.poetry.dependencies]
+# Python version
+python = "^3.8.0"
+
 # List project dependencies here
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
 click = "^8.0.1"{%- endif %}
