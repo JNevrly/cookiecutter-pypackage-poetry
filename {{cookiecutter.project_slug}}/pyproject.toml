@@ -67,3 +67,9 @@ relative_files = true
 
 [tool.coverage.report]
 fail_under = 100
+
+# In case of problems with editable installs, see
+# https://github.com/python-poetry/poetry/issues/2343#issuecomment-903647050
+#[build-system]
+#requires = ["poetry-core>=1.0.0", "setuptools>=49.0.0"]
+#build-backend = "poetry.core.masonry.api"
