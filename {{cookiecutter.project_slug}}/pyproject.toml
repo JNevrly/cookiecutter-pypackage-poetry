@@ -44,23 +44,23 @@ sockjs = "^0.11.0"{% endif %}
 
 [tool.poetry.dev-dependencies]
 bump2version = "^0.5.0"
-pip = "^18.1"
-wheel = "^0.32.1"
-watchdog = "^0.9.0"
-flake8 = "^3.5.0"
-tox = "^3.5.2"
+pip = "*"
+wheel = "*"
+watchdog = "*"
+flake8 = "*"
+tox = "*"
 coverage = {extras = ["toml"], version = "^5.5"}
-Sphinx = "^4.1.1"
-sphinx-rtd-theme = "^0.5.2"
-twine = "^3.4.2"
+Sphinx = "*"
+sphinx-rtd-theme = "*"
+twine = "*"
 {% if cookiecutter.use_pytest == "y" -%}
-pytest = "^3.8.2"
-pytest-runner = "^4.2"
-pytest-cov = "^2.6.0"{% endif %}
-setuptools = "^40.5.0"
-rstcheck = "^3.3.1"
-ptpython = "^2.0.4"
-mypy = "^0.910"
+pytest = "*"
+pytest-runner = "*"
+pytest-cov = "*"{% endif %}
+setuptools = "*"
+rstcheck = "*"
+ptpython = "*"
+mypy = "*"
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*"]
