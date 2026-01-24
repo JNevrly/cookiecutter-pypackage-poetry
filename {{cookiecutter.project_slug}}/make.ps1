@@ -135,9 +135,9 @@ Check code coverage quickly with the default Python
 #>
 function coverage() {
     {%- if cookiecutter.use_pytest == "y" %}
-    poetry run coverage run --source src\{{ cookiecutter.project_slug }} -m pytest
+    poetry run coverage run --source {{ cookiecutter.project_slug }} -m pytest
     {%- else %}
-    poetry run coverage run --source src\{{ cookiecutter.project_slug }} -m test.test_{{ cookiecutter.project_slug }}.py
+    poetry run coverage run --source {{ cookiecutter.project_slug }} -m test.test_{{ cookiecutter.project_slug }}.py
     {%- endif %}
     poetry run coverage report -m
     poetry run coverage html
@@ -150,7 +150,7 @@ Generate Sphinx HTML documentation, including API docs
 function docs(){
     if (Test-Path ".\docs\{{ cookiecutter.project_slug }}.rst") { Remove-Item ".\docs\{{ cookiecutter.project_slug }}.rst" -Force }
     if (Test-Path ".\docs\modules.rst") { Remove-Item ".\docs\modules.rst" -Force }
-    poetry run sphinx-apidoc -o docs\ src\{{ cookiecutter.project_slug }}
+    poetry run sphinx-apidoc -o docs\ {{ cookiecutter.project_slug }}
     poetry run .\docs\make.bat clean
     poetry run .\docs\make.bat html
     poetry run python $Script:BROWSER_PYSCRIPT(.\docs\_build\html\index.html)

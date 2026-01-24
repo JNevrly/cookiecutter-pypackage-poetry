@@ -50,7 +50,7 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest --cov=src/{{ cookiecutter.project_slug }} tests/
+          poetry run pytest --cov={{ cookiecutter.project_slug }} tests/
 
   lint:
     runs-on: ubuntu-latest
@@ -74,4 +74,4 @@ jobs:
           poetry run ruff format --check .
 
       - name: Type check with mypy
-        run: poetry run mypy src/{{ cookiecutter.project_slug }}
+        run: poetry run mypy {{ cookiecutter.project_slug }}

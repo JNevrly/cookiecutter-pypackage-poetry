@@ -28,7 +28,7 @@ if __name__ == "__main__":
         remove_file("tests/__init__.py")
 
     if "no" in "{{ cookiecutter.command_line_interface|lower }}":
-        cli_file = os.path.join("src", "{{ cookiecutter.project_slug }}", "cli.py")
+        cli_file = os.path.join("{{ cookiecutter.project_slug }}", "cli.py")
         remove_file(cli_file)
 
     if "Not open source" == "{{ cookiecutter.open_source_license }}":
@@ -47,12 +47,12 @@ if __name__ == "__main__":
         remove_file("docs/.nojekyll")
 
     if "{{ cookiecutter.use_classic_aiohttp_setup }}" == "n":
-        http_handler_file = os.path.join("src", "{{ cookiecutter.project_slug }}",
+        http_handler_file = os.path.join("{{ cookiecutter.project_slug }}",
                                          "http_handler.py")
         remove_file(http_handler_file)
 
     if "{{ cookiecutter.use_onacol }}" == "n":
-        config_file = os.path.join("src", "{{ cookiecutter.project_slug }}",
+        config_file = os.path.join("{{ cookiecutter.project_slug }}",
                                    "default_config.yaml")
         remove_file(config_file)
 

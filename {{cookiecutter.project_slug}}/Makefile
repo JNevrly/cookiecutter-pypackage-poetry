@@ -71,9 +71,9 @@ test-all: ## run tests on every Python version with tox
 
 coverage: ## check code coverage quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
-	poetry run coverage run --source src/{{ cookiecutter.project_slug }} -m pytest
+	poetry run coverage run --source {{ cookiecutter.project_slug }} -m pytest
 {%- else %}
-	poetry run coverage run --source src/{{ cookiecutter.project_slug }} setup.py test
+	poetry run coverage run --source {{ cookiecutter.project_slug }} setup.py test
 {%- endif %}
 	poetry run coverage report -m
 	poetry run coverage html
@@ -82,7 +82,7 @@ coverage: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
+	sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
