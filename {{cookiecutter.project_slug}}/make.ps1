@@ -82,7 +82,7 @@ function cleanPyc() {
 Remove test and coverage artifacts
 #>
 function cleanTest() {
-    $paths = @(".\.tox", ".\.coverage", ".\.htmlcov", ".\.pytest_cache")
+    $paths = @(".\.tox", ".\.coverage", ".\.htmlcov", ".\.pytest_cache", ".\.ruff_cache")
     foreach ($path in $paths) {
         if (Test-Path $path)
         {
@@ -93,10 +93,20 @@ function cleanTest() {
 
 <#
 .Description
-Check style with flake8
+Check style with ruff
 #>
 function lint() {
-    poetry run flake8 src\{{ cookiecutter.project_slug }} tests
+    poetry run ruff check .
+    poetry run ruff format --check .
+}
+
+<#
+.Description
+Format code with ruff
+#>
+function format() {
+    poetry run ruff format .
+    poetry run ruff check --fix .
 }
 
 <#
@@ -151,7 +161,7 @@ Compile the docs watching for changes
 #>
 function servedocs() {
     docs
-    poetry run watchmedo shell-command -p '.\docs\*.rst'; poetry run .\docs\make.bat html -R -D
+    poetry run watchmedo shell-command -p '.\docs\*.rst;.\docs\*.md'; poetry run .\docs\make.bat html -R -D
 }
 
 <#
@@ -179,15 +189,15 @@ function install() {
 }
 
 function bumpversionMajor {
-    poetry run bump2version major
+    poetry run bump-my-version bump major
 }
 
 function bumpversionMinor {
-    poetry run bump2version minor
+    poetry run bump-my-version bump minor
 }
 
 function bumpversionPatch {
-    poetry run bump2version patch
+    poetry run bump-my-version bump patch
 }
     
 switch ($command) {
@@ -200,6 +210,7 @@ switch ($command) {
     test { test; break }
     test-all { testAll; break }
     lint { lint; break }
+    format { format; break }
     clean-test { cleanTest; break }
     clean-pyc { cleanPyc; break }
     clean-build { cleanBuild; break }

@@ -1,66 +1,70 @@
-[tool.poetry]
+[project]
 name = "{{ cookiecutter.project_slug }}"
 version = "{{ cookiecutter.version }}"
 description = "{{ cookiecutter.project_short_description }}"
-authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"]
-license = "{{ cookiecutter.open_source_license }}"
+authors = [
+    { name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" }
+]
+license = { text = "{{ cookiecutter.open_source_license }}" }
+readme = "README.md"
+requires-python = ">={{ cookiecutter.python_version }}"
+dynamic = ["dependencies", "classifiers"]
 
-readme = "README.rst"
-
-repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+[project.urls]
+Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+Repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 {% if cookiecutter.document_publisher == 'ReadTheDocs' %}
-documentation = "https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io"
+Documentation = "https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io"
 {% else %}
-documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
+Documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
 {%- endif %}
-homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
 
+{% if cookiecutter.command_line_interface|lower == 'click' %}
+[project.scripts]
+{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
+{% endif %}
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+packages = [
+    { include = "{{ cookiecutter.project_slug }}", from = "src" },
+]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10"
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 [tool.poetry.dependencies]
-# Python version
-python = "^3.8.0"
-
-# List project dependencies here
 {%- if cookiecutter.command_line_interface|lower == 'click' %}
-click = "^8.0.1"{%- endif %}
+click = "^8.1.7"{%- endif %}
 {% if cookiecutter.use_onacol == "y" -%}
-onacol = "^0.3.0"{%- endif %}
+onacol = "^0.3.4"{%- endif %}
 {% if cookiecutter.use_classic_aiohttp_setup == "y" -%}
-aiohttp = "^3.7.4"
+aiohttp = "^3.9.0"
 sockjs = "^0.11.0"{% endif %}
 
-{% if cookiecutter.command_line_interface|lower == 'click' %}
-[tool.poetry.scripts]
-{{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
-{% endif %}
-
-[tool.poetry.dev-dependencies]
-bump2version = "^0.5.0"
-pip = "^18.1"
-wheel = "^0.32.1"
-watchdog = "^0.9.0"
-flake8 = "^3.5.0"
-tox = "^3.5.2"
-coverage = {extras = ["toml"], version = "^5.5"}
-Sphinx = "^4.1.1"
-sphinx-rtd-theme = "^0.5.2"
-twine = "^3.4.2"
+[tool.poetry.group.dev.dependencies]
+bump-my-version = "^1.2.0"
+pip = "^24.0"
+wheel = "^0.42.0"
+watchdog = "^4.0.0"
+tox = "^4.34.0"
+coverage = {extras = ["toml"], version = "^7.4"}
+Sphinx = "^8.1.0"
+sphinx-rtd-theme = "^3.0"
+myst-parser = "^5.0.0"
+twine = "^5.0"
+ruff = "^0.14.0"
 {% if cookiecutter.use_pytest == "y" -%}
-pytest = "^3.8.2"
-pytest-runner = "^4.2"
-pytest-cov = "^2.6.0"{% endif %}
-setuptools = "^40.5.0"
-rstcheck = "^3.3.1"
-ptpython = "^2.0.4"
-mypy = "^0.910"
+pytest = "^9.0"
+pytest-runner = "^6.0"
+pytest-cov = "^4.1"{% endif %}
+mypy = "^1.19"
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*"]
@@ -70,8 +74,29 @@ relative_files = true
 [tool.coverage.report]
 fail_under = 100
 
-# In case of problems with editable installs, see
-# https://github.com/python-poetry/poetry/issues/2343#issuecomment-903647050
-#[build-system]
-#requires = ["poetry-core>=1.0.0", "setuptools>=49.0.0"]
-#build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = []
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.bumpversion]
+current_version = "{{ cookiecutter.version }}"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "src/{{ cookiecutter.project_slug }}/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'

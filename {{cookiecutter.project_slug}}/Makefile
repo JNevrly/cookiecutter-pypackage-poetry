@@ -49,9 +49,15 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+	rm -fr .ruff_cache/
 
-lint: ## check style with flake8
-	flake8 {{ cookiecutter.project_slug }} tests
+lint: ## check style with ruff
+	poetry run ruff check .
+	poetry run ruff format --check .
+
+format: ## format code with ruff
+	poetry run ruff format .
+	poetry run ruff check --fix .
 
 test: ## run tests quickly with the default Python
 {%- if cookiecutter.use_pytest == 'y' %}
@@ -76,13 +82,13 @@ coverage: ## check code coverage quickly with the default Python
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/{{ cookiecutter.project_slug }}.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}
+	sphinx-apidoc -o docs/ src/{{ cookiecutter.project_slug }}
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 servedocs: docs ## compile the docs watching for changes
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+	watchmedo shell-command -p '*.rst;*.md' -c '$(MAKE) -C docs html' -R -D .
 
 release: dist ## package and upload a release
 	poetry publish
@@ -94,7 +100,7 @@ install: clean ## install the package to the active Python's site-packages
 	poetry install
 
 version-major:
-	bump2version major
+	bump-my-version bump major
 
 version-minor:
-	bump2version minor
+	bump-my-version bump minor
